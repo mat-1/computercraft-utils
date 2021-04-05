@@ -1,7 +1,7 @@
 import * as world from './world'
 import * as vec3 from './vec3'
 import * as state from './state'
-import * as rednet from './rednet'
+import * as net from './net'
 
 
 
@@ -59,7 +59,7 @@ export function moveInDirection(dir: vec3.DirectionUp) {
 	const newPosition = state.getPositionForDirection(dir)
 
 	state.savePosition(newPosition)
-	rednet.broadcastPosition()
+	net.broadcastPosition()
 
 
 	if (dir == 'up')

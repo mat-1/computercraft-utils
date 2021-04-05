@@ -2064,21 +2064,17 @@ function ____exports.findNearestUnexplored(self)
 end
 return ____exports
 end,
-["rednet"] = function() --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
+["net"] = function() --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
 local state = require("state")
-rednet:open("left")
+rednet.open("right")
 function ____exports.broadcastPosition(self)
     local data = {
         position = tostring(state.currentPosition)
     }
-    rednet:broadcast(
+    rednet.broadcast(
         textutils.serializeJSON(data),
-        os:getComputerLabel()
-    )
-    print(
-        "ok, broadcasted position",
-        os:getComputerLabel()
+        os.getComputerLabel()
     )
 end
 return ____exports
@@ -2088,7 +2084,7 @@ local ____exports = {}
 local world = require("world")
 local vec3 = require("vec3")
 local state = require("state")
-local rednet = require("rednet")
+local net = require("net")
 local suckInDirection
 function ____exports.turnInDirection(self, dir)
     local previousDirection = state.currentDirection
@@ -2214,7 +2210,7 @@ function ____exports.moveInDirection(self, dir)
     local previousPosition = state.currentPosition
     local newPosition = state:getPositionForDirection(dir)
     state:savePosition(newPosition)
-    rednet:broadcastPosition()
+    net:broadcastPosition()
     if dir == "up" then
         success, reason = turtle.up()
     elseif dir == "down" then
@@ -2469,14 +2465,14 @@ local movement = require("movement")
 local vec3 = require("vec3")
 local state = require("state")
 local pathing = require("pathing")
-local rednet = require("rednet")
-rednet:broadcastPosition()
+local net = require("net")
+net:broadcastPosition()
 ____exports.world = world
 ____exports.movement = movement
 ____exports.vec3 = vec3
 ____exports.state = state
 ____exports.pathing = pathing
-____exports.rednet = rednet
+____exports.net = net
 return ____exports
 end,
 }

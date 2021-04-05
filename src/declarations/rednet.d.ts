@@ -1,8 +1,9 @@
-declare let rednet: {
+/** @noSelfInFile */
+declare namespace rednet {
 	/** The channel used by the Rednet API to broadcast messages. */
-	CHANNEL_BROADCAST: number
+	let CHANNEL_BROADCAST: number
 	/** The channel used by the Rednet API to repeat messages. */
-	CHANNEL_REPEAT: number
+	let CHANNEL_REPEAT: number
 	
 	/**
 	 * Opens a modem with the given peripheral name, allowing it to send and receive messages over rednet.
@@ -10,21 +11,21 @@ declare let rednet: {
 	 * @param modem The name of the modem to open.
 	 * @throws If there is no such modem with the given name
 	*/
-	open(modem: string): void
+	export function open(modem: string): void
 
 	/**
 	 * Close a modem with the given peripheral name, meaning it can no longer send and receive rednet messages.
 	 * @param modem The side the modem exists on. If not given, all open modems will be closed.
 	 * @throws If there is no such modem with the given name
 	*/
-	close(modem?: string): void
+	export function close(modem?: string): void
 
 	/**
 	 * Determine if rednet is currently open.
 	 * @param modem Which modem to check. If not given, all connected modems will be checked.
 	 * @returns If the given modem is open.
 	*/
-	isOpen(modem?: string): boolean
+	export function isOpen(modem?: string): boolean
 
 	/**
 	 * Allows a computer or turtle with an attached modem to send a message intended for a system with a specific ID. At least one such modem must first be opened before sending is possible.
@@ -35,7 +36,7 @@ declare let rednet: {
 	 * @param sProtocol The "protocol" to send this message under. When using rednet.receive one can filter to only receive messages sent under a particular protocol.
 	 * @returns If this message was successfully sent (i.e. if rednet is currently open). Note, this does not guarantee the message was actually received.
 	*/
-	send(nRecipient: number, message: string, sProtocol?: string): boolean
+	export function send(nRecipient: number, message: string, sProtocol?: string): boolean
 
 	/**
 	 * Broadcasts a string message over the predefined CHANNEL_BROADCAST channel. The message will be received by every device listening to rednet.
@@ -43,7 +44,7 @@ declare let rednet: {
 	 * @param sProtocol The "protocol" to send this message under. When using rednet.receive one can filter to only receive messages sent under a particular protocol.
 	 * @returns If this message was successfully sent (i.e. if rednet is currently open). Note, this does not guarantee the message was actually received.
 	*/
-	broadcast(message: string, sProtocol?: string): boolean
+	export function broadcast(message: string, sProtocol?: string): boolean
 
 	/**
 	 * Wait for a rednet message to be received, or until nTimeout seconds have elapsed.
@@ -52,7 +53,7 @@ declare let rednet: {
 	 * @returns If this message was successfully sent (i.e. if rednet is currently open). Note, this does not guarantee the message was actually received.
 	 * @tuplereturn
 	*/
-	receive(sProtocolFilter?: string): [ number, any, string | null ] | [ null ]
+	export function receive(sProtocolFilter?: string): [ number, any, string | null ] | [ null ]
 
 	/**
 	 * Register the system as "hosting" the desired protocol under the specified name. If a rednet lookup is performed for that protocol (and maybe name) on the same network, the registered system will automatically respond via a background process, hence providing the system performing the lookup with its ID number.
@@ -62,13 +63,13 @@ declare let rednet: {
 	 * @param sHostname The name this protocol exposes for the given protocol.
 	 * @throws If trying to register a hostname which is reserved, or currently in use.
 	*/
-	host(sProtocolFilter?: string): void
+	export function host(sProtocolFilter?: string): void
 
 	/**
 	 * Stop hosting a specific protocol, meaning it will no longer respond to rednet.lookup requests.
 	 * @param sProtocol The protocol to unregister your self from.
 	*/
-	unhost(sProtocol: string): void
+	export function unhost(sProtocol: string): void
 
 	/**
 	 * Search the local rednet network for systems hosting the desired protocol and returns any computer IDs that respond as "registered" against it.
@@ -79,12 +80,12 @@ declare let rednet: {
 	 * @returns A list of computer IDs hosting the given protocol, or nil if none exist.
 	 * @returns The computer ID with the provided hostname and protocol, or nil if none exists.
 	*/
-	lookup(sProtocol: string, sHostname?: string): number[] | number | null
+	export function lookup(sProtocol: string, sHostname?: string): number[] | number | null
 
 	/**
 	 * Listen for modem messages and converts them into rednet messages, which may then be received.
 	 * 
 	 * This is automatically started in the background on computer startup, and should not be called manually.
 	*/
-	run(): void
+	export function run(): void
 }
