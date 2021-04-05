@@ -11,6 +11,6 @@
 		"luaTarget": "JIT",
 		"luaLibImport": "require",
 		"luaBundleEntry": "src/index.ts",
-		"luaBundle": "utils.lua"
+		"luaBundle": "turtleutils.lua"
 	}
 }

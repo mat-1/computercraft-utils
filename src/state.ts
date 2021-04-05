@@ -24,7 +24,7 @@ function loadDirection(): vec3.Direction {
 	}
 }
 
-export let currentPosition = loadPosition()
+export let currentPosition: vec3.Vec3 = loadPosition()
 
 export function savePosition(position: vec3.Vec3) {
 	currentPosition = position
@@ -52,14 +52,14 @@ export function getPositionForDirection(dir: vec3.DirectionUp): vec3.Vec3 {
 	return currentPosition.plus(directionOffsets.north, directionOffsets.up, directionOffsets.east)
 }
 
-export let inventoryFull = false
+export let inventoryFull: boolean = false
 
 export function updateInventoryFull() {
 	inventoryFull = turtle.getItemCount(4 * 4) > 0
 	return inventoryFull
 }
 
-export let headingToSpawn = false
+export let headingToSpawn: boolean = false
 
 
 export function setHeadingToSpawn(value: boolean) {
