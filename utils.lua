@@ -2442,114 +2442,17 @@ end
 return ____exports
 end,
 ["index"] = function() --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
-require("lualib_bundle");
 local ____exports = {}
 local world = require("world")
 local movement = require("movement")
 local vec3 = require("vec3")
 local state = require("state")
 local pathing = require("pathing")
-local TOTAL_SLOTS = 4 * 4
-local function returnToSpawn(self)
-    state:setHeadingToSpawn(true)
-    print("Going to spawn...")
-    local spawnPosition = __TS__New(vec3.Vec3, 0, 0, 0)
-    while not (((state.currentPosition.north == 0) and (state.currentPosition.east == 0)) and (state.currentPosition.up == 0)) do
-        local recommendedDirection = pathing:getDirectionTo(spawnPosition, true)
-        print(",,recommendedDirection", recommendedDirection)
-        movement:digInDirection(recommendedDirection)
-        movement:moveInDirection(recommendedDirection)
-    end
-    movement:turnInDirection("north")
-    state:setHeadingToSpawn(false)
-end
-local function returnToStartingHeight(self)
-    if state.currentPosition.up == 0 then
-        return
-    end
-    if state.currentPosition.up > 0 then
-        do
-            local i = 1
-            while i < state.currentPosition.up do
-                movement:digInDirection("down")
-                movement:moveInDirection("down")
-                i = i + 1
-            end
-        end
-    elseif state.currentPosition.up < 0 then
-        do
-            local i = 1
-            while i < -state.currentPosition.up do
-                movement:digInDirection("up")
-                movement:moveInDirection("up")
-                i = i + 1
-            end
-        end
-    end
-end
-local function depositAllAtSpawn(self)
-    returnToSpawn(nil)
-    do
-        local i = 1
-        while i <= TOTAL_SLOTS do
-            turtle.select(i)
-            turtle.refuel()
-            local success, reason = turtle.dropDown()
-            if reason then
-                print(reason)
-            end
-            i = i + 1
-        end
-    end
-    turtle.select(1)
-end
-print("Ok")
-depositAllAtSpawn(nil)
-state:updateInventoryFull()
-if state.inventoryFull then
-    depositAllAtSpawn(nil)
-end
-local miningOres = false
-while true do
-    local nearestOrePosition = movement:scanAround(world.ORES)
-    if nearestOrePosition then
-        print(
-            "To " .. tostring(nearestOrePosition)
-        )
-        local recommendedDirection = pathing:getDirectionTo(nearestOrePosition, true)
-        movement:digInDirection(recommendedDirection)
-        movement:moveInDirection(recommendedDirection)
-        miningOres = true
-    else
-        returnToStartingHeight(nil)
-        local nearestMineablePosition = world:findNearestUnexplored()
-        local recommendedDirection
-        if nearestMineablePosition then
-            recommendedDirection = pathing:getDirectionTo(nearestMineablePosition)
-        else
-            recommendedDirection = state.currentDirection
-        end
-        print(
-            ((".To " .. tostring(nearestMineablePosition)) .. " ") .. tostring(recommendedDirection)
-        )
-        movement:digInDirection(recommendedDirection)
-        movement:moveInDirection(recommendedDirection)
-    end
-    movement:scanAround()
-    if state.currentPosition.up == 0 then
-        movement:inspectInDirection("up")
-        local upBlock = world:getBlock(
-            state:getPositionForDirection("up")
-        )
-        if __TS__ArrayIncludes(world.UNDERGROUND_MINEABLE, upBlock) then
-            movement:digInDirection("up")
-        end
-    end
-    if state.inventoryFull then
-        depositAllAtSpawn(nil)
-    end
-    world:saveWorld()
-end
+____exports.world = world
+____exports.movement = movement
+____exports.vec3 = vec3
+____exports.state = state
+____exports.pathing = pathing
 return ____exports
 end,
 }
